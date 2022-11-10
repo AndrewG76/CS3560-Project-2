@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class UserGroup implements Composite{
+public class UserGroup implements Component{
     private String id;
-    private List<Composite> members;
+    private List<Component> components;
     
     public UserGroup(String inputID){
         id = inputID;
-        members = new ArrayList<Composite>();
+        components = new ArrayList<Component>();
     }
 
     public void setID(String inputID){
@@ -17,15 +17,23 @@ public class UserGroup implements Composite{
         return id;
     }
 
-    public List<Composite> getMembers(){
-        return members;
+    public List<Component> getMembers(){
+        return components;
     }
 
     public void accept(Visitor v){
-        v.visit(this);
+        v.atGroup(this);
     }
 
-    public void addToGroup(Composite inputComposite){
-        members.add(inputComposite);
+    public void addToGroup(Component inputComponent){
+        components.add(inputComponent);
+    }
+
+    public void addGroup(UserGroup inputGroup){
+
+    }
+
+    public void visit(Component inputComponent){
+
     }
 }

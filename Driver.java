@@ -32,9 +32,16 @@ import java.util.Observable;
 public class Driver{
     public static void main(String[] args){
         User user = new User("Tester");
-        TweetObserver tweetObserver = new TweetObserver();
+        User otherUser = new User("Other Tester");
+        UserGroup root = new UserGroup("root"); //Users will have to be part of the root to ultimately tie them together
 
-        user.addObserver(((Observer) tweetObserver));
-        user.sendTweet("Tweeting?");
+        UserGroup testingGroup = new UserGroup("The Testing Group");
+
+        TweetObserver tweetObserver = new TweetObserver();
+        user.addObserver(tweetObserver);
+        user.sendTweet("bruh go eat a cinnamon roll");
+
+        root.addToGroup(user);
+        root.addToGroup(otherUser);
     }
 }

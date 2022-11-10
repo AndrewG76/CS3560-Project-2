@@ -1,7 +1,7 @@
 import java.util.*;
 import javax.swing.*;
 
-public class User extends Observable implements Composite{
+public class User extends Observable implements Component{
     private String id;
 
     List<User> followerList;
@@ -16,12 +16,13 @@ public class User extends Observable implements Composite{
     }
 
     public void accept(Visitor v){
-        v.visit(this);
+        //v.visit(this);
     }
 
     public void follow(User inputUser){
         inputUser.addFollower(this);
         followingList.add(inputUser);
+        addObserver(new TweetObserver());
     }
 
     public List<User> getFollowingList(){
@@ -34,6 +35,10 @@ public class User extends Observable implements Composite{
 
     public String getLastTweet(){
         return tweets.get(tweets.size() - 1);
+    }
+
+    public List<String> getTweets(){
+        return tweets;
     }
 
     public String getID(){
