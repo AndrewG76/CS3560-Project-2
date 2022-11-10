@@ -23,6 +23,7 @@ public class PositiveMessageVisitor implements Visitor{
         List<String> userTweets = inputUser.getTweets();
         for(int i = 0; i < userTweets.size(); i++){
             for(int j = 0; j < positiveWords.size(); j++){
+                // System.out.println(userTweets.get(i) + " " + postitiveWords.get(j));
                 if(userTweets.get(i).toLowerCase().indexOf(positiveWords.get(j).toLowerCase()) != -1){
                     positiveMessageCount++;
                     break; //We break here because otherwise, it might say we have two positive messages when only one was sent but has multiple 'good' words.

@@ -3,9 +3,17 @@ import java.util.*;
 public class UserGroup implements Component{
     private String id;
     private List<Component> components;
+    private UserGroup parent;
     
     public UserGroup(String inputID){
         id = inputID;
+        components = new ArrayList<Component>();
+        parent = null;
+    }
+
+    public UserGroup(String inputID, UserGroup inputParent){
+        id = inputID;
+        parent = inputParent;
         components = new ArrayList<Component>();
     }
 
@@ -21,6 +29,10 @@ public class UserGroup implements Component{
         return components;
     }
 
+    public UserGroup getParent(){
+        return parent;
+    }
+
     public void accept(Visitor v){
         v.atGroup(this);
         for(int i = 0; i < components.size(); i++){
@@ -30,13 +42,5 @@ public class UserGroup implements Component{
 
     public void addToGroup(Component inputComponent){
         components.add(inputComponent);
-    }
-
-    public void addGroup(UserGroup inputGroup){
-
-    }
-
-    public void visit(Component inputComponent){
-
     }
 }

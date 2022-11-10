@@ -27,10 +27,10 @@
   - Implementation of the root tree will be helpful in iterating through the loops and grabbing all the data necessary
   */
 
-import java.util.Observable;
-
 public class Driver{
     public static void main(String[] args){
+        Admin.getInstance();
+
         User user = new User("Tester");
         User otherUser = new User("Other Tester");
         UserGroup root = new UserGroup("root"); //Users will have to be part of the root to ultimately tie them together
@@ -38,10 +38,21 @@ public class Driver{
         UserGroup testingGroup = new UserGroup("The Testing Group");
 
         TweetObserver tweetObserver = new TweetObserver();
+
+        TotalMessageVisitor totalMessageVisitor = new TotalMessageVisitor();
+        GroupVisitor groupVisitor = new GroupVisitor();
+        PositiveMessageVisitor positiveMessageVisitor = new PositiveMessageVisitor();
+        UserVisitor userVisitor = new UserVisitor();
+
         user.addObserver(tweetObserver);
         user.sendTweet("bruh go eat a cinnamon roll");
 
         root.addToGroup(user);
         root.addToGroup(otherUser);
+
+        root.accept(totalMessageVisitor);
+        root.accept(groupVisitor);
+        root.accept(positiveMessageVisitor);
+        root.accept(userVisitor);
     }
 }
