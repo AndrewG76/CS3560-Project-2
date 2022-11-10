@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.tree.*;
 
@@ -34,7 +35,7 @@ public class Admin {
     }
 
     private void initialize(){
-        frame = new JFrame();
+        frame = new JFrame("Admin Control Panel");
         frame.setBounds(500, 500, 500, 500);
         frame.getContentPane().setLayout(null);
 
@@ -49,13 +50,13 @@ public class Admin {
         JButton addUserButton = new JButton("Add User");
         addUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+                addUser(txtUserID.getText());
 			}
 		});
         addUserButton.setBounds(50, 50, 50, 50);
         frame.getContentPane().add(addUserButton);
 
         txtGroupID = new JTextField();
-        txtGroupID.setText("Group ID");
         txtGroupID.setBounds(150, 150, 50, 50);
         frame.getContentPane().add(txtGroupID);
         txtGroupID.setColumns(10);
@@ -72,10 +73,27 @@ public class Admin {
         JButton openUserViewButton = new JButton("Open User View");
         openUserviewButton.setBounds(250, 250, 50, 50);
         frame.getContentPane().add(openUserViewButton);
+        openUserViewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event){
+                if(getSelected().getUserObject() instanceof User){
+                    ((User) getSelected().getUserObject()).openUserView();
+                }
+                else{ 
+                    alert("Please select a user to see user view.");
+                }
+            }
+        });
 
         JButton showMessageTotalButton = new JButton("Show Messages Total");
         showMessageTotalButton.setBounds(300, 300, 50, 50);
         frame.getContentPane().add(showMessageTotalButton);
+        showMessageTotalButton.addActionListener((new ActionListener() {
+            public void actionPerformed(ActionEvent event){
+                TotalMessageVisitor totalMessageVisitor = new TotalMessageVisitor();
+                root.accept(totalMessageVisitor);
+                alert("There are " + totalMessageVisitor.getMessageCount() + " messages in total.");
+            }
+        }));
 
         JButton showPositiveButton = new JButton("Show Positive Percentage");
         showPositiveButton.setBounds(350, 350, 50, 50);
@@ -97,14 +115,61 @@ public class Admin {
     }
 
     private void addGroup(String inputNewGroupID){
-        DefaultMutableTreeNode group1 = new DefaultMutableTreeNode(new UserGroup(inputNewGroupID));
-        DefaultMutableTreeNode tempNode = ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent());
-        updateTree(group1, tempNode);
+        if(inputNewGroupID.equals("")){
+            alert("Please enter an ID.");
+        }
+        else{
+            DefaultMutableTreeNode tempNode = getSelected();
+            UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
+
+            UserGroup newGroup = new UserGroup(inputNewGroupID, tempGroup);
+            DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(inputNewGroupID);
+
+            if(tempGroup.addToGroup(newGroup)){
+                updateTree(newGroupNode, tempNode);
+            }
+            else{
+                alert("ID already exists. Please try a unique ID.");
+            }
+        }
+    }
+
+    private void addUser(String inputNewUserID){
+        if(inputNewUserID.equals("")){
+            alert("Please enter an ID!");
+        }
+        else{
+            DefaultMutableTreeNode tempNode = getSelected();
+            UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
+
+            User newUser = new User(inputNewUserID, tempGroup);
+            DefaultMutableTreeNode newUserNode = new DefaultMutableTreeNode(newUser);
+
+            if(tempGroup.addToGroup(newUser)){
+                updateTree(newUserNode, tempNode);
+            }
+            else{
+                alert("ID already exists. Please use a unique ID and try again.");
+            }
+        }
     }
 
     public void updateTree(DefaultMutableTreeNode nodeToAdd, DefaultMutableTreeNode containingNode) {
-		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-		model.insertNodeInto(nodeToAdd, containingNode, containingNode.getChildCount());
-		tree.scrollPathToVisible(new TreePath(nodeToAdd.getPath()));
+		if(containingNode.getUserObject() instanceof Group){
+            DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+            model.insertNodeInto((nodeToAdd), containingNode, containingNode.getChildCount());
+            tree.scrollPathToVisible(new TreePath(nodeToAdd.getPath()));
+        }
+        else{
+            alert("Cannot add to User. Select a group and try again");
+        }
 	}
+
+    private void alert(String inputMessage){
+        JOptionPane.showMessageDialog(null, inputMessage);
+    }
+
+    public DefaultMutableTreeNode getSelected(){
+        return ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent())
+    }
 }

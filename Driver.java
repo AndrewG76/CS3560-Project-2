@@ -29,7 +29,7 @@
 
 public class Driver{
     public static void main(String[] args){
-        Admin.getInstance();
+        Admin.getInstance().runWindow();
 
         User user = new User("Tester");
         User otherUser = new User("Other Tester");
