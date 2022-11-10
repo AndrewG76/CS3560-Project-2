@@ -5,7 +5,7 @@ public class TotalMessageVisitor implements Visitor{
         messageCount = 0;
     }
 
-    public int MessageCount(){
+    public int getMessageCount(){
         return messageCount;
     }
 

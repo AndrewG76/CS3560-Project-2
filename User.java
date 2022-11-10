@@ -15,8 +15,8 @@ public class User extends Observable implements Component{
         tweets = new ArrayList<String>();
     }
 
-    public void accept(Visitor v){
-        v.atUser(this);
+    public void accept(Visitor inputVisitor){
+        inputVisitor.atUser(this);
     }
 
     public void follow(User inputUser){

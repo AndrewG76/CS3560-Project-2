@@ -2,19 +2,19 @@ import java.util.*;
 
 public class UserGroup implements Component{
     private String id;
-    private List<Component> components;
-    private UserGroup parent;
+    private List<Component> childUsersAndGroups;
+    private UserGroup parentGroup;
     
     public UserGroup(String inputID){
         id = inputID;
-        components = new ArrayList<Component>();
-        parent = null;
+        childUsersAndGroups = new ArrayList<Component>();
+        parentGroup = null;
     }
 
     public UserGroup(String inputID, UserGroup inputParent){
         id = inputID;
-        parent = inputParent;
-        components = new ArrayList<Component>();
+        parentGroup = inputParent;
+        childUsersAndGroups = new ArrayList<Component>();
     }
 
     public void setID(String inputID){
@@ -25,22 +25,22 @@ public class UserGroup implements Component{
         return id;
     }
 
-    public List<Component> getMembers(){
-        return components;
+    public List<Component> getChildUsersAndGroups(){
+        return childUsersAndGroups;
     }
 
     public UserGroup getParent(){
-        return parent;
+        return parentGroup;
     }
 
-    public void accept(Visitor v){
-        v.atGroup(this);
-        for(int i = 0; i < components.size(); i++){
-            components.get(i).accept(v);
+    public void accept(Visitor inputVisitor){
+        inputVisitor.atGroup(this);
+        for(int i = 0; i < childUsersAndGroups.size(); i++){
+            childUsersAndGroups.get(i).accept(inputVisitor);
         }
     }
 
     public void addToGroup(Component inputComponent){
-        components.add(inputComponent);
+        childUsersAndGroups.add(inputComponent);
     }
 }
