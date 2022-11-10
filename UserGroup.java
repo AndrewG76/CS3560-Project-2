@@ -23,6 +23,9 @@ public class UserGroup implements Component{
 
     public void accept(Visitor v){
         v.atGroup(this);
+        for(int i = 0; i < components.size(); i++){
+            components.get(i).accept(v);
+        }
     }
 
     public void addToGroup(Component inputComponent){

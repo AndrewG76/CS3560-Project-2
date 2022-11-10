@@ -16,7 +16,7 @@ public class User extends Observable implements Component{
     }
 
     public void accept(Visitor v){
-        //v.visit(this);
+        v.atUser(this);
     }
 
     public void follow(User inputUser){
