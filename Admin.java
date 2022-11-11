@@ -4,12 +4,11 @@ import javax.swing.*;
 import javax.swing.tree.*;
 
 public class Admin {
-    private static Admin instance = null;
+    private static Admin instance;
 
     private JFrame frame;
     private JTextField txtUserID;
     private JTextField txtGroupID;
-    private JPanel rootDisplay;
     private JTree tree;
     private UserGroup root;
     private DefaultMutableTreeNode rootNode;
@@ -36,20 +35,19 @@ public class Admin {
 
     private void initialize(){
         frame = new JFrame("Admin Control Panel");
-        frame.setBounds(500, 500, 500, 500);
+        frame.setBounds(50, 50, 1000, 1000);
         frame.getContentPane().setLayout(null);
 
         rootNode = new DefaultMutableTreeNode(root);
 
         txtUserID = new JTextField();
-        txtUserID.setText("User ID");
         txtUserID.setBounds(100, 100, 50, 50);
         frame.getContentPane().add(txtUserID);
         txtUserID.setColumns(10);
 
         JButton addUserButton = new JButton("Add User");
         addUserButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent event) {
                 addUser(txtUserID.getText());
 			}
 		});
@@ -98,17 +96,39 @@ public class Admin {
         JButton showPositiveButton = new JButton("Show Positive Percentage");
         showPositiveButton.setBounds(350, 350, 50, 50);
         frame.getContentPane().add(showPositiveButton);
+        showPositiveButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                PositiveMessageVisitor positiveMessageVisitor = new PositiveMessageVisitor();
+                root.accept(positiveMessageVisitor);
+                alert("Percent of positive messages is: " + positiveMessageVisitor.getPositiveRatio() + " percent");
+            }
+        });
 
         JButton showUserCountButton = new JButton("Show User Total");
         showUserCountButton.setBounds(400, 400, 50, 50);
         frame.getContentPane().add(showUserCountButton);
+        showUserCountButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                UserVisitor userVisitor = new UserVisitor();
+                root.accept(userVisitor);
+                alert("There are " + userVisitor.getUserCount() + " users.");
+            }
+        });
 
         JButton showGroupCountButton = new JButton("Show Group Total");
         showGroupCountButton.setBounds(450, 450, 50, 50);
         frame.getContentPane().add(showGroupCountButton);
+        showGroupCountButton.addActionListener((new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                GroupVisitor groupVisitor = new GroupVisitor();
+                root.accept(groupVisitor);
+                alert("There are " + groupVisitor.getGroupCount() + " groups.");
+            }
+        }));
 
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(450, 450, 50, 100);
+        scrollPane.setBounds(500, 500, 50, 50);
+
         frame.getContentPane().add(scrollPane);
         tree = new JTree(rootNode);
         scrollPane.setViewportView(tree);
@@ -120,16 +140,21 @@ public class Admin {
         }
         else{
             DefaultMutableTreeNode tempNode = getSelected();
-            UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
+            if(tempNode != null && tempNode.getUserObject() instanceof UserGroup){
+                UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
 
-            UserGroup newGroup = new UserGroup(inputNewGroupID, tempGroup);
-            DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(inputNewGroupID);
+                UserGroup newGroup = new UserGroup(inputNewGroupID, tempGroup);
+                DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(inputNewGroupID);
 
-            if(tempGroup.addToGroup(newGroup)){
-                updateTree(newGroupNode, tempNode);
+                if(tempGroup.addToGroup(newGroup)){
+                    updateTree(newGroupNode, tempNode);
+                }
+                else{
+                    alert("ID already exists. Please try a unique ID.");
+                }
             }
             else{
-                alert("ID already exists. Please try a unique ID.");
+                alert("Error! Select a group and try again!");
             }
         }
     }
@@ -140,16 +165,22 @@ public class Admin {
         }
         else{
             DefaultMutableTreeNode tempNode = getSelected();
-            UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
 
-            User newUser = new User(inputNewUserID, tempGroup);
-            DefaultMutableTreeNode newUserNode = new DefaultMutableTreeNode(newUser);
+            if(tempNode != null && tempNode.getUserObject() instanceof UserGroup){
+                UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
 
-            if(tempGroup.addToGroup(newUser)){
-                updateTree(newUserNode, tempNode);
+                User newUser = new User(inputNewUserID, tempGroup);
+                DefaultMutableTreeNode newUserNode = new DefaultMutableTreeNode(newUser);
+
+                if(tempGroup.addToGroup(newUser)){
+                    updateTree(newUserNode, tempNode);
+                }
+                else{
+                    alert("ID already exists. Please use a unique ID and try again.");
+                }
             }
             else{
-                alert("ID already exists. Please use a unique ID and try again.");
+                alert("Error! Select a group and try again.");
             }
         }
     }
@@ -170,6 +201,11 @@ public class Admin {
     }
 
     public DefaultMutableTreeNode getSelected(){
-        return ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent());
+        try{
+            return ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent());
+        }
+        catch (NullPointerException e){
+            return null;
+        }
     }
 }

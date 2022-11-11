@@ -31,31 +31,31 @@ public class Driver{
     public static void main(String[] args){
         Admin.getInstance().runWindow();
 
-        User user = new User("Tester");
-        User otherUser = new User("Other Tester");
-        UserGroup root = new UserGroup("root"); //Users will have to be part of the root to ultimately tie them together
-        UserGroup testingGroup = new UserGroup("The Testing Group");
+        // User user = new User("Tester");
+        // User otherUser = new User("Other Tester");
+        // UserGroup root = new UserGroup("root"); //Users will have to be part of the root to ultimately tie them together
+        // UserGroup testingGroup = new UserGroup("The Testing Group");
 
-        TweetObserver tweetObserver = new TweetObserver();
+        // TweetObserver tweetObserver = new TweetObserver();
 
-        TotalMessageVisitor totalMessageVisitor = new TotalMessageVisitor();
-        GroupVisitor groupVisitor = new GroupVisitor();
-        PositiveMessageVisitor positiveMessageVisitor = new PositiveMessageVisitor();
-        UserVisitor userVisitor = new UserVisitor();
+        // TotalMessageVisitor totalMessageVisitor = new TotalMessageVisitor();
+        // GroupVisitor groupVisitor = new GroupVisitor();
+        // PositiveMessageVisitor positiveMessageVisitor = new PositiveMessageVisitor();
+        // UserVisitor userVisitor = new UserVisitor();
 
-        user.addObserver(tweetObserver);
-        user.sendTweet("bruh go eat a cinnamon roll");
+        // user.addObserver(tweetObserver);
+        // user.sendTweet("bruh go eat a cinnamon roll");
 
-        root.addToGroup(user); //testing purposes
-        root.addToGroup(otherUser);
+        // root.addToGroup(user); //testing purposes
+        // root.addToGroup(otherUser);
 
-        root.accept(totalMessageVisitor); //Allowing the visitors to retrieve the data they need from the root
-        System.out.println(totalMessageVisitor.getMessageCount());
-        root.accept(groupVisitor);
-        System.out.println(groupVisitor.getGroupCount());
-        root.accept(positiveMessageVisitor);
-        System.out.println(positiveMessageVisitor.getPositiveRatio());
-        root.accept(userVisitor);
-        System.out.println(userVisitor.getUserCount());
+        // root.accept(totalMessageVisitor); //Allowing the visitors to retrieve the data they need from the root
+        // System.out.println(totalMessageVisitor.getMessageCount());
+        // root.accept(groupVisitor);
+        // System.out.println(groupVisitor.getGroupCount());
+        // root.accept(positiveMessageVisitor);
+        // System.out.println(positiveMessageVisitor.getPositiveRatio());
+        // root.accept(userVisitor);
+        // System.out.println(userVisitor.getUserCount());
     }
 }

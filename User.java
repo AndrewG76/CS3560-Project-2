@@ -1,5 +1,4 @@
 import java.util.*;
-import javax.swing.*;
 
 public class User extends Observable implements Component{
     private String id;
@@ -7,6 +6,7 @@ public class User extends Observable implements Component{
     private List<User> followerList;
     private List<User> followingList;
     private List<String> tweets;
+    private List<String> newsFeed;
     private UserView userView;
     private UserGroup parentGroup;
 
@@ -14,6 +14,7 @@ public class User extends Observable implements Component{
         id = inputID;
         followerList = new ArrayList<User>();
         followingList = new ArrayList<User>();
+        newsFeed = new ArrayList<String>();
         tweets = new ArrayList<String>();
         this.parentGroup = inputParent;
     }
@@ -25,7 +26,7 @@ public class User extends Observable implements Component{
     public void follow(User inputUser){
         inputUser.addFollower(this);
         followingList.add(inputUser);
-        addObserver(new TweetObserver());
+        inputUser.addObserver(new TweetObserver(this));
     }
 
     public List<User> getFollowingList(){
@@ -48,8 +49,16 @@ public class User extends Observable implements Component{
         return id;
     }
 
+    public String toString(){
+        return "[User] " + id;
+    }
+
     public void setID(String inputID){
         id = inputID;
+    }
+
+    public List<String> getNewsFeed(){
+        return newsFeed;
     }
 
     public void openUserView(){
@@ -85,5 +94,6 @@ public class User extends Observable implements Component{
 
     public void updateTweetFeed(String inputMessage){
         userView.updateTweetList(inputMessage);
+        newsFeed.add(inputMessage);
     }
 }

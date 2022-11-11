@@ -17,7 +17,7 @@ public class UserView {
 
     private void initialize(String inputTitle){
         frame = new JFrame(inputTitle);
-        frame.setBounds(50, 50, 50, 50);
+        frame.setBounds(50, 50, 1000, 1000);
         frame.getContentPane().setLayout(null);
 
         tweetText = new JTextField();
@@ -48,11 +48,23 @@ public class UserView {
         JButton tweetButton = new JButton("Post Tweet");
         tweetButton.setBounds(300, 300, 50, 50);
         frame.getContentPane().add(tweetButton);
+        tweetButton.addActionListener((new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                user.sendTweet(tweetText.getText());
+            }
+        }));
 
         tweetList = new DefaultListModel<String>();
         JList<String> tweetDisplay = new JList<String>(tweetList);
         tweetDisplay.setBounds(350, 350, 50, 50);
         frame.getContentPane().add(tweetDisplay);
+
+        JLabel labelMessages = new JLabel("Messages");
+        labelMessages.setBounds(400, 400, 50, 50);
+        frame.getContentPane().add(labelMessages);
+
+        repopulateFollowers();
+        repopulateTweets();
     }
 
     public void updateFollowers(String inputUserID){
@@ -61,6 +73,20 @@ public class UserView {
 
     public void updateTweetList(String inputMessage){
         tweetList.addElement(inputMessage);
+    }
+
+    private void repopulateTweets(){
+        for(int i = 0; i < user.getNewsFeed().size(); i++){
+            tweetList.addElement(user.getNewsFeed().get(i));
+        }
+    }
+
+    private void repopulateFollowers(){
+        for(int i = 0; i < user.getFollowingList().size(); i++){
+            if(user.getFollowingList().get(i).getID().equals(user.getID()) != true){
+                followingList.addElement((user.getFollowingList().get(i).getID()));
+            }
+        }
     }
 
 }

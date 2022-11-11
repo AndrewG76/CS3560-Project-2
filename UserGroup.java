@@ -36,6 +36,10 @@ public class UserGroup implements Component{
         return parentGroup;
     }
 
+    public String toString(){
+        return "[Group] " + id;
+    }
+
     public void accept(Visitor inputVisitor){
         inputVisitor.atGroup(this);
         for(int i = 0; i < childUsersAndGroups.size(); i++){
@@ -44,12 +48,11 @@ public class UserGroup implements Component{
     }
 
     public boolean addToGroup(Component inputComponent){
-        if(getRoot().getIDs().contains(inputComponent.toString())){
-            System.out.println("testtttt");
+        if(getRoot().getIDs().contains(inputComponent.getID())){
             return false;
         }
         childUsersAndGroups.add(inputComponent);
-        getRoot().getIDs().add(inputComponent.toString());
+        getRoot().getIDs().add(inputComponent.getID());
         return true;
     }
 
@@ -58,7 +61,7 @@ public class UserGroup implements Component{
     }
 
     public boolean equals(UserGroup inputGroup){
-        return this.id.toLowerCase().equals((inputGroup.toString().toLowerCase()));
+        return this.id.toLowerCase().equals((inputGroup.getID().toLowerCase()));
     }
 
     public UserGroup getRoot(){

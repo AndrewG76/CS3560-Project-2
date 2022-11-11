@@ -12,8 +12,7 @@ public class UserFinderVisitor implements Visitor{
     }
 
     public void atUser(User inputUser){
-        System.out.println(targetID + " " + inputUser.getID() + "here");
-        if(targetID.toLowerCase().equals((inputUser.toString().toLowerCase()))){
+        if(targetID.toLowerCase().equals((inputUser.getID().toLowerCase()))){
             target = inputUser;
         }
     }
