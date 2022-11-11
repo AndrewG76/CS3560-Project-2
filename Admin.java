@@ -3,7 +3,7 @@ import javax.swing.*;
 import javax.swing.tree.*;
 
 public class Admin {
-    private static Admin instance;
+    protected static Admin instance;
 
     private JFrame frame;
     private JTextField txtUserID;
@@ -17,9 +17,10 @@ public class Admin {
         initialize();
     }
 
+    //Singleton implementation of AdminView
     public static Admin getInstance(){
         if(instance == null){
-            synchronized(Admin.class){ //Synchronized allows for the usage of multi-threading processes for live, up-to-date announcements like with the Tweets
+            synchronized (Admin.class){ //Synchronized allows for the usage of multi-threading processes for live, up-to-date announcements like with the Tweets
                 if(instance == null){
                     instance = new Admin();
                 }
@@ -32,6 +33,7 @@ public class Admin {
         instance.frame.setVisible(true);
     }
 
+    //Initialize the the UI elements
     private void initialize(){
         frame = new JFrame("Admin Control Panel");
         frame.setBounds(50, 50, 805, 456);

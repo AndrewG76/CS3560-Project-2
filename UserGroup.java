@@ -28,22 +28,23 @@ public class UserGroup implements Component{
         return id;
     }
 
-    public List<Component> getChildUsersAndGroups(){
-        return childUsersAndGroups;
-    }
-
     public UserGroup getParent(){
         return parentGroup;
     }
 
+    @Override
     public String toString(){
         return "[Group] " + id;
     }
 
+    public List<Component> getChildUsersAndGroups(){
+        return childUsersAndGroups;
+    }
+
     public void accept(Visitor inputVisitor){
         inputVisitor.atGroup(this);
-        for(int i = 0; i < childUsersAndGroups.size(); i++){
-            childUsersAndGroups.get(i).accept(inputVisitor);
+        for(Component child : childUsersAndGroups){
+            child.accept(inputVisitor);
         }
     }
 

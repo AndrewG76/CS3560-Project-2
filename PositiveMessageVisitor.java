@@ -9,7 +9,7 @@ public class PositiveMessageVisitor implements Visitor{
     public PositiveMessageVisitor(){
         positiveMessageCount = 0;
         totalMessageCount = 0;
-
+        positiveWords = new ArrayList<String>();
         positiveWords.add("cool");
         positiveWords.add("good");
     }
@@ -20,16 +20,15 @@ public class PositiveMessageVisitor implements Visitor{
         }
         else{
             positiveRatio = totalMessageCount/positiveMessageCount;
-        return positiveRatio;
+            return positiveRatio;
         }
     }
 
     public void atUser(User inputUser){
         List<String> userTweets = inputUser.getTweets();
-        for(int i = 0; i < userTweets.size(); i++){
-            for(int j = 0; j < positiveWords.size(); j++){
-                System.out.println(userTweets.get(i) + " " + positiveWords.get(j));
-                if(userTweets.get(i).toLowerCase().indexOf(positiveWords.get(j).toLowerCase()) != -1){
+        for(String tweet : userTweets){
+            for(String positiveWord : positiveWords){
+                    if(tweet.toLowerCase().indexOf(positiveWord.toLowerCase()) != -1){
                     positiveMessageCount++;
                     break; //We break here because otherwise, it might say we have two positive messages when only one was sent but has multiple 'good' words.
                 }

@@ -20,11 +20,6 @@ public class UserView {
         frame.setBounds(50, 50, 522, 430);
         frame.getContentPane().setLayout(null);
 
-        tweetText = new JTextField();
-        tweetText.setBounds(10, 10, 240, 50);
-        frame.getContentPane().add(tweetText);
-        tweetText.setColumns(10);
-
         JButton followUserButton = new JButton("Follow User");
         followUserButton.setBounds(260, 10, 240, 50);
         frame.getContentPane().add(followUserButton);
@@ -41,24 +36,29 @@ public class UserView {
         followingList.addElement("Currently Following");
 
         followUserID = new JTextField();
-        followUserID.setBounds(10, 200, 290, 50);
+        followUserID.setBounds(10, 10, 240, 50);
         frame.getContentPane().add(followUserID);
         followUserID.setColumns(10);
+
+        tweetText = new JTextField();
+        tweetText.setBounds(10, 200, 290, 50);
+        frame.getContentPane().add(tweetText);
+        tweetText.setColumns(10);
 
         JButton tweetButton = new JButton("Post Tweet");
         tweetButton.setBounds(310, 200, 190, 50);
         frame.getContentPane().add(tweetButton);
-        tweetButton.addActionListener((new ActionListener(){
+        tweetButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 user.sendTweet(tweetText.getText());
             }
-        }));
+        });
 
         tweetList = new DefaultListModel<String>();
         JList<String> tweetDisplay = new JList<String>(tweetList);
         tweetDisplay.setBounds(10, 260, 490, 120);
         frame.getContentPane().add(tweetDisplay);
-        tweetList.addElement("News Feed");
+        //tweetList.addElement("News Feed");
 
         JLabel labelMessages = new JLabel();
         labelMessages.setBounds(10, 260, 490, 120);
@@ -77,15 +77,15 @@ public class UserView {
     }
 
     private void repopulateTweets(){
-        for(int i = 0; i < user.getNewsFeed().size(); i++){
-            tweetList.addElement(user.getNewsFeed().get(i));
+        for(String tweet : user.getNewsFeed()){
+            updateTweetList(tweet);
         }
     }
 
     private void repopulateFollowers(){
-        for(int i = 0; i < user.getFollowingList().size(); i++){
-            if(user.getFollowingList().get(i).getID().equals(user.getID()) != true){
-                followingList.addElement((user.getFollowingList().get(i).getID()));
+        for(User following : user.getFollowingList()){
+            if(!following.getID().equals(user.getID())){
+                updateFollowers(following.getID());
             }
         }
     }

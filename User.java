@@ -17,6 +17,7 @@ public class User extends Observable implements Component{
         newsFeed = new ArrayList<String>();
         tweets = new ArrayList<String>();
         this.parentGroup = inputParent;
+        follow(this);
     }
 
     public void accept(Visitor inputVisitor){
@@ -29,44 +30,20 @@ public class User extends Observable implements Component{
         inputUser.addObserver(new TweetObserver(this));
     }
 
-    public List<User> getFollowingList(){
-        return followingList;
+    public String getID(){
+        return id;
     }
 
-    public List<User> getFollowerList(){
-        return followerList;
+    public List<User> getFollowingList(){
+        return followingList;
     }
 
     public String getLastTweet(){
         return tweets.get(tweets.size() - 1);
     }
 
-    public List<String> getTweets(){
-        return tweets;
-    }
-
-    public String getID(){
-        return id;
-    }
-
-    public String toString(){
-        return "[User] " + id;
-    }
-
-    public void setID(String inputID){
-        id = inputID;
-    }
-
-    public List<String> getNewsFeed(){
-        return newsFeed;
-    }
-
-    public void openUserView(){
-        userView = new UserView(this);
-    }
-
-    public UserGroup getParent(){
-        return parentGroup;
+    public List<User> getFollowerList(){
+        return followerList;
     }
 
     public void addFollower(User inputUser){
@@ -83,13 +60,37 @@ public class User extends Observable implements Component{
         notifyObservers();
     }
 
+    public List<String> getTweets(){
+        return tweets;
+    }
+
+    @Override
+    public String toString(){
+        return "[User] " + id;
+    }
+
+    public void setID(String inputID){
+        id = inputID;
+    }
+
+    public void openUserView(){
+        userView = new UserView(this);
+    }
+
+    public UserGroup getParent(){
+        return parentGroup;
+    }
+
     public void followUser(String inputUserToFollow){
         UserGroup root = getParent().getRoot();
         UserFinderVisitor userFinderVisitor = new UserFinderVisitor(inputUserToFollow);
         root.accept(userFinderVisitor);
-        System.out.println(userFinderVisitor.getTarget().getID());
         follow((userFinderVisitor.getTarget()));
         userView.updateFollowers(inputUserToFollow);
+    }
+    
+    public List<String> getNewsFeed(){
+        return newsFeed;
     }
 
     public void updateTweetFeed(String inputMessage){
