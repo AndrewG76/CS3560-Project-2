@@ -20,6 +20,7 @@ public class User extends Observable implements Component{
         follow(this);
     }
 
+    @Override
     public void accept(Visitor inputVisitor){
         inputVisitor.atUser(this);
     }

@@ -61,13 +61,13 @@ public class Admin {
         txtGroupID.setColumns(10);
 
         JButton addGroupButton = new JButton("Add Group");
-        addGroupButton.setBounds(580, 70, 200, 50);
-        frame.getContentPane().add(addGroupButton);
         addGroupButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 addGroup(txtGroupID.getText());
             }
         });
+        addGroupButton.setBounds(580, 70, 200, 50);
+        frame.getContentPane().add(addGroupButton);
         
         JButton openUserViewButton = new JButton("Open User View");
         openUserViewButton.setBounds(370, 130, 410, 50);
@@ -145,7 +145,7 @@ public class Admin {
                 UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
 
                 UserGroup newGroup = new UserGroup(inputNewGroupID, tempGroup);
-                DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(inputNewGroupID);
+                DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(newGroup);
 
                 if(tempGroup.addToGroup(newGroup)){
                     updateTree(newGroupNode, tempNode);

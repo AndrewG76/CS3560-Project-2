@@ -24,10 +24,6 @@ public class UserGroup implements Component{
         id = inputID;
     }
 
-    public String getID(){
-        return id;
-    }
-
     public UserGroup getParent(){
         return parentGroup;
     }
@@ -37,8 +33,8 @@ public class UserGroup implements Component{
         return "[Group] " + id;
     }
 
-    public List<Component> getChildUsersAndGroups(){
-        return childUsersAndGroups;
+    public String getID(){
+        return id;
     }
 
     public void accept(Visitor inputVisitor){
@@ -62,7 +58,7 @@ public class UserGroup implements Component{
     }
 
     public boolean equals(UserGroup inputGroup){
-        return this.id.toLowerCase().equals((inputGroup.getID().toLowerCase()));
+        return id.toLowerCase().equals((inputGroup.getID().toLowerCase()));
     }
 
     public UserGroup getRoot(){
@@ -72,4 +68,9 @@ public class UserGroup implements Component{
         }
         return root;
     }
+
+    public List<Component> getChildUsersAndGroups(){
+        return childUsersAndGroups;
+    }
+
 }
