@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.tree.*;
@@ -35,13 +34,13 @@ public class Admin {
 
     private void initialize(){
         frame = new JFrame("Admin Control Panel");
-        frame.setBounds(50, 50, 1000, 1000);
+        frame.setBounds(50, 50, 805, 456);
         frame.getContentPane().setLayout(null);
 
         rootNode = new DefaultMutableTreeNode(root);
 
         txtUserID = new JTextField();
-        txtUserID.setBounds(100, 100, 50, 50);
+        txtUserID.setBounds(370, 10, 200, 50);
         frame.getContentPane().add(txtUserID);
         txtUserID.setColumns(10);
 
@@ -51,16 +50,16 @@ public class Admin {
                 addUser(txtUserID.getText());
 			}
 		});
-        addUserButton.setBounds(50, 50, 50, 50);
+        addUserButton.setBounds(580, 10, 200, 50);
         frame.getContentPane().add(addUserButton);
 
         txtGroupID = new JTextField();
-        txtGroupID.setBounds(150, 150, 50, 50);
+        txtGroupID.setBounds(370, 70, 200, 50);
         frame.getContentPane().add(txtGroupID);
         txtGroupID.setColumns(10);
 
         JButton addGroupButton = new JButton("Add Group");
-        addGroupButton.setBounds(200, 200, 50, 50);
+        addGroupButton.setBounds(580, 70, 200, 50);
         frame.getContentPane().add(addGroupButton);
         addGroupButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -69,7 +68,7 @@ public class Admin {
         });
         
         JButton openUserViewButton = new JButton("Open User View");
-        openUserViewButton.setBounds(250, 250, 50, 50);
+        openUserViewButton.setBounds(370, 130, 410, 50);
         frame.getContentPane().add(openUserViewButton);
         openUserViewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event){
@@ -83,7 +82,7 @@ public class Admin {
         });
 
         JButton showMessageTotalButton = new JButton("Show Messages Total");
-        showMessageTotalButton.setBounds(300, 300, 50, 50);
+        showMessageTotalButton.setBounds(370, 360, 200, 50);
         frame.getContentPane().add(showMessageTotalButton);
         showMessageTotalButton.addActionListener((new ActionListener() {
             public void actionPerformed(ActionEvent event){
@@ -94,7 +93,7 @@ public class Admin {
         }));
 
         JButton showPositiveButton = new JButton("Show Positive Percentage");
-        showPositiveButton.setBounds(350, 350, 50, 50);
+        showPositiveButton.setBounds(580, 360, 200, 50);
         frame.getContentPane().add(showPositiveButton);
         showPositiveButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
@@ -105,7 +104,7 @@ public class Admin {
         });
 
         JButton showUserCountButton = new JButton("Show User Total");
-        showUserCountButton.setBounds(400, 400, 50, 50);
+        showUserCountButton.setBounds(370, 300, 200, 50);
         frame.getContentPane().add(showUserCountButton);
         showUserCountButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
@@ -116,7 +115,7 @@ public class Admin {
         });
 
         JButton showGroupCountButton = new JButton("Show Group Total");
-        showGroupCountButton.setBounds(450, 450, 50, 50);
+        showGroupCountButton.setBounds(580, 300, 200, 50);
         frame.getContentPane().add(showGroupCountButton);
         showGroupCountButton.addActionListener((new ActionListener(){
             public void actionPerformed(ActionEvent event){
@@ -127,7 +126,7 @@ public class Admin {
         }));
 
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(500, 500, 50, 50);
+        scrollPane.setBounds(10, 10, 350, 402);
 
         frame.getContentPane().add(scrollPane);
         tree = new JTree(rootNode);

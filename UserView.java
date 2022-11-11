@@ -17,16 +17,16 @@ public class UserView {
 
     private void initialize(String inputTitle){
         frame = new JFrame(inputTitle);
-        frame.setBounds(50, 50, 1000, 1000);
+        frame.setBounds(50, 50, 522, 430);
         frame.getContentPane().setLayout(null);
 
         tweetText = new JTextField();
-        tweetText.setBounds(100, 100, 50, 50);
+        tweetText.setBounds(10, 10, 240, 50);
         frame.getContentPane().add(tweetText);
         tweetText.setColumns(10);
 
         JButton followUserButton = new JButton("Follow User");
-        followUserButton.setBounds(150, 150, 50, 50);
+        followUserButton.setBounds(260, 10, 240, 50);
         frame.getContentPane().add(followUserButton);
         followUserButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event){
@@ -36,17 +36,17 @@ public class UserView {
 
         followingList = new DefaultListModel<String>();
         JList<String> followingUserDisplay = new JList<String>(followingList);
-        followingUserDisplay.setBounds(200, 200, 50, 50);
+        followingUserDisplay.setBounds(10, 70, 490, 120);
         frame.getContentPane().add(followingUserDisplay);
-        followingList.addElement("Currently Following: ");
+        followingList.addElement("Currently Following");
 
         followUserID = new JTextField();
-        followUserID.setBounds(250, 250, 50, 50);
+        followUserID.setBounds(10, 200, 290, 50);
         frame.getContentPane().add(followUserID);
         followUserID.setColumns(10);
 
         JButton tweetButton = new JButton("Post Tweet");
-        tweetButton.setBounds(300, 300, 50, 50);
+        tweetButton.setBounds(310, 200, 190, 50);
         frame.getContentPane().add(tweetButton);
         tweetButton.addActionListener((new ActionListener(){
             public void actionPerformed(ActionEvent event){
@@ -56,11 +56,12 @@ public class UserView {
 
         tweetList = new DefaultListModel<String>();
         JList<String> tweetDisplay = new JList<String>(tweetList);
-        tweetDisplay.setBounds(350, 350, 50, 50);
+        tweetDisplay.setBounds(10, 260, 490, 120);
         frame.getContentPane().add(tweetDisplay);
+        tweetList.addElement("News Feed");
 
-        JLabel labelMessages = new JLabel("Messages");
-        labelMessages.setBounds(400, 400, 50, 50);
+        JLabel labelMessages = new JLabel();
+        labelMessages.setBounds(10, 260, 490, 120);
         frame.getContentPane().add(labelMessages);
 
         repopulateFollowers();
