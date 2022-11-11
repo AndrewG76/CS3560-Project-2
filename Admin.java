@@ -71,7 +71,7 @@ public class Admin {
         });
         
         JButton openUserViewButton = new JButton("Open User View");
-        openUserviewButton.setBounds(250, 250, 50, 50);
+        openUserViewButton.setBounds(250, 250, 50, 50);
         frame.getContentPane().add(openUserViewButton);
         openUserViewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event){
@@ -155,7 +155,7 @@ public class Admin {
     }
 
     public void updateTree(DefaultMutableTreeNode nodeToAdd, DefaultMutableTreeNode containingNode) {
-		if(containingNode.getUserObject() instanceof Group){
+		if(containingNode.getUserObject() instanceof UserGroup){
             DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
             model.insertNodeInto((nodeToAdd), containingNode, containingNode.getChildCount());
             tree.scrollPathToVisible(new TreePath(nodeToAdd.getPath()));
@@ -170,6 +170,6 @@ public class Admin {
     }
 
     public DefaultMutableTreeNode getSelected(){
-        return ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent())
+        return ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent());
     }
 }

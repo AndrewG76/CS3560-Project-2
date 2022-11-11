@@ -4,15 +4,18 @@ import javax.swing.*;
 public class User extends Observable implements Component{
     private String id;
 
-    List<User> followerList;
-    List<User> followingList;
-    List<String> tweets;
+    private List<User> followerList;
+    private List<User> followingList;
+    private List<String> tweets;
+    private UserView userView;
+    private UserGroup parentGroup;
 
-    public User(String inputID){
+    public User(String inputID, UserGroup inputParent){
         id = inputID;
         followerList = new ArrayList<User>();
         followingList = new ArrayList<User>();
         tweets = new ArrayList<String>();
+        this.parentGroup = inputParent;
     }
 
     public void accept(Visitor inputVisitor){
@@ -49,6 +52,14 @@ public class User extends Observable implements Component{
         id = inputID;
     }
 
+    public void openUserView(){
+        userView = new UserView(this);
+    }
+
+    public UserGroup getParent(){
+        return parentGroup;
+    }
+
     public void addFollower(User inputUser){
         followerList.add(inputUser);
     }
@@ -63,4 +74,16 @@ public class User extends Observable implements Component{
         notifyObservers();
     }
 
+    public void followUser(String inputUserToFollow){
+        UserGroup root = getParent().getRoot();
+        UserFinderVisitor userFinderVisitor = new UserFinderVisitor(inputUserToFollow);
+        root.accept(userFinderVisitor);
+        System.out.println(userFinderVisitor.getTarget().getID());
+        follow((userFinderVisitor.getTarget()));
+        userView.updateFollowers(inputUserToFollow);
+    }
+
+    public void updateTweetFeed(String inputMessage){
+        userView.updateTweetList(inputMessage);
+    }
 }
