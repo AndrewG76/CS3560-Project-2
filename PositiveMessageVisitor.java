@@ -19,7 +19,7 @@ public class PositiveMessageVisitor implements Visitor{
             return 0.0;
         }
         else{
-            positiveRatio = totalMessageCount/positiveMessageCount;
+            positiveRatio = ((double) positiveMessageCount/ (double) totalMessageCount) * 100.0;
             return positiveRatio;
         }
     }
