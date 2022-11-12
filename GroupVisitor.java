@@ -10,10 +10,10 @@ public class GroupVisitor implements Visitor{
     }
 
     public void atUser(User inputUser){
-
+        //Because this is groupVisitor, it has no functionality needed at users
     }
 
-    public void atGroup(UserGroup inputUser){
+    public void atGroup(UserGroup inputGroup){
         groupCount++;
     }
 }

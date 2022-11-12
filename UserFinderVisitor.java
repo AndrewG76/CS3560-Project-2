@@ -18,8 +18,6 @@ public class UserFinderVisitor implements Visitor{
     }
 
     public void atGroup(UserGroup inputGroup){
-        
+        //Because this method is searching through every user for their id, this does nothing at groups
     }
-
-
 }

@@ -10,6 +10,7 @@ public class User extends Observable implements Component{
     private UserView userView;
     private UserGroup parentGroup;
 
+    //This constructor initializes the aspects of what makes a "user"
     public User(String inputID, UserGroup inputParent){
         id = inputID;
         followerList = new ArrayList<User>();
@@ -17,7 +18,7 @@ public class User extends Observable implements Component{
         newsFeed = new ArrayList<String>();
         tweets = new ArrayList<String>();
         this.parentGroup = inputParent;
-        follow(this);
+        follow(this); //Also, we want the user technically following themselves because that's how they update their feed with their own messages
     }
 
     @Override
@@ -25,6 +26,7 @@ public class User extends Observable implements Component{
         inputVisitor.atUser(this);
     }
 
+    //Doing this adds an observer
     public void follow(User inputUser){
         inputUser.addFollower(this);
         followingList.add(inputUser);
@@ -35,53 +37,54 @@ public class User extends Observable implements Component{
         return id;
     }
 
-    public List<User> getFollowingList(){
-        return followingList;
-    }
-
-    public String getLastTweet(){
-        return tweets.get(tweets.size() - 1);
-    }
-
     public List<User> getFollowerList(){
         return followerList;
     }
 
-    public void addFollower(User inputUser){
-        followerList.add(inputUser);
-    }
-
-    public void addTweet(String inputTweet){
-        tweets.add(inputTweet);
-    }
-
-    public void sendTweet(String inputTweet){
-        addTweet(inputTweet);
-        setChanged();
-        notifyObservers();
+    public List<User> getFollowingList(){
+        return followingList;
     }
 
     public List<String> getTweets(){
         return tweets;
     }
 
-    @Override
-    public String toString(){
-        return "[User] " + id;
-    }
-
-    public void setID(String inputID){
-        id = inputID;
-    }
-
-    public void openUserView(){
-        userView = new UserView(this);
-    }
-
     public UserGroup getParent(){
         return parentGroup;
     }
 
+    public String getLastTweet(){
+        return tweets.get(tweets.size() - 1);
+    }
+
+    public List<String> getNewsFeed(){
+        return newsFeed;
+    }
+
+    public void addFollower(User inputUser){
+        followerList.add(inputUser);
+    }
+
+    public void addTweet(String inputTweet){ //This one can be confused with the other method, this is just for general archiving/backend purposes
+        tweets.add(inputTweet);
+    }
+
+    public void sendTweet(String inputTweet){ //And this one is when we use the entire functionality of sending out a tweet with notifying and all
+        addTweet(inputTweet);
+        setChanged();
+        notifyObservers();
+    }
+
+    @Override
+    public String toString(){
+        return "[User] " + id; //Displays the name on the scroll panel and clarifies user identity
+    }
+
+    public void openUserView(){ //This function exists to create the user's control panel and then show it off after clicking open user view from the admin control panel
+        userView = new UserView(this);
+    }
+    
+    //This takes advantage of the Visitor class to search through all users and return the user with the matching ID, following them and updating the current user's followingList
     public void followUser(String inputUserToFollow){
         UserGroup root = getParent().getRoot();
         UserFinderVisitor userFinderVisitor = new UserFinderVisitor(inputUserToFollow);
@@ -89,11 +92,8 @@ public class User extends Observable implements Component{
         follow((userFinderVisitor.getTarget()));
         userView.updateFollowers(inputUserToFollow);
     }
-    
-    public List<String> getNewsFeed(){
-        return newsFeed;
-    }
 
+    //This method will be used to update the feed and then the newsfeed archives the messages just for consistency
     public void updateTweetFeed(String inputMessage){
         userView.updateTweetList(inputMessage);
         newsFeed.add(inputMessage);

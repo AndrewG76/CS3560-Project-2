@@ -13,7 +13,7 @@ public class UserVisitor implements Visitor{
         userCount++;
     }
 
-    public void atGroup(UserGroup inputUser){
-        
+    public void atGroup(UserGroup inputGroup){
+        //This method is dealing with just users so nothing really happens here at groups
     }
 }

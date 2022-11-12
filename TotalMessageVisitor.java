@@ -13,7 +13,7 @@ public class TotalMessageVisitor implements Visitor{
         messageCount += inputUser.getTweets().size();
     }
 
-    public void atGroup(UserGroup inputUser){
-        
+    public void atGroup(UserGroup inputGroup){
+        //Because we're observing the users' sent messages, groups don't need to be taken into consideration
     }
 }

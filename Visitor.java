@@ -1,4 +1,4 @@
 public interface Visitor {
     public void atUser(User inputUser);
-    public void atGroup(UserGroup inputUser);
+    public void atGroup(UserGroup inputGroup);
 }

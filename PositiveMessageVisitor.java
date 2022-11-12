@@ -6,6 +6,7 @@ public class PositiveMessageVisitor implements Visitor{
     private double positiveRatio;
     private List<String> positiveWords;
     
+    //We initialize the positive words according to the example
     public PositiveMessageVisitor(){
         positiveMessageCount = 0;
         totalMessageCount = 0;
@@ -24,6 +25,7 @@ public class PositiveMessageVisitor implements Visitor{
         }
     }
 
+    //Here, this implementation of atUser searches all the messages for positive words and adds it to the positive counter
     public void atUser(User inputUser){
         List<String> userTweets = inputUser.getTweets();
         for(String tweet : userTweets){
@@ -38,6 +40,6 @@ public class PositiveMessageVisitor implements Visitor{
     }
 
     public void atGroup(UserGroup inputGroup){
-        
+        //Because we're searching the individual users' tweets for positive words, we don't have anything happen at the groups
     }
 }

@@ -17,7 +17,7 @@ public class Admin {
         initialize();
     }
 
-    //Singleton implementation of AdminView
+    //Singleton implementation of Admin
     public static Admin getInstance(){
         if(instance == null){
             synchronized (Admin.class){ //Synchronized allows for the usage of multi-threading processes for live, up-to-date announcements like with the Tweets
@@ -41,7 +41,7 @@ public class Admin {
 
         rootNode = new DefaultMutableTreeNode(root);
 
-        txtUserID = new JTextField();
+        txtUserID = new JTextField(); //This is where the admin inputs the name for a user to eventually be created
         txtUserID.setBounds(370, 10, 200, 50);
         frame.getContentPane().add(txtUserID);
         txtUserID.setColumns(10);
@@ -55,7 +55,7 @@ public class Admin {
         addUserButton.setBounds(580, 10, 200, 50);
         frame.getContentPane().add(addUserButton);
 
-        txtGroupID = new JTextField();
+        txtGroupID = new JTextField(); //This is where the admin inputs the text for the new group to be created
         txtGroupID.setBounds(370, 70, 200, 50);
         frame.getContentPane().add(txtGroupID);
         txtGroupID.setColumns(10);
@@ -83,28 +83,6 @@ public class Admin {
             }
         });
 
-        JButton showMessageTotalButton = new JButton("Show Messages Total");
-        showMessageTotalButton.setBounds(370, 360, 200, 50);
-        frame.getContentPane().add(showMessageTotalButton);
-        showMessageTotalButton.addActionListener((new ActionListener() {
-            public void actionPerformed(ActionEvent event){
-                TotalMessageVisitor totalMessageVisitor = new TotalMessageVisitor();
-                root.accept(totalMessageVisitor);
-                alert("There are " + totalMessageVisitor.getMessageCount() + " messages in total.");
-            }
-        }));
-
-        JButton showPositiveButton = new JButton("Show Positive Percentage");
-        showPositiveButton.setBounds(580, 360, 200, 50);
-        frame.getContentPane().add(showPositiveButton);
-        showPositiveButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                PositiveMessageVisitor positiveMessageVisitor = new PositiveMessageVisitor();
-                root.accept(positiveMessageVisitor);
-                alert("Percent of positive messages is: " + positiveMessageVisitor.getPositiveRatio() + " percent");
-            }
-        });
-
         JButton showUserCountButton = new JButton("Show User Total");
         showUserCountButton.setBounds(370, 300, 200, 50);
         frame.getContentPane().add(showUserCountButton);
@@ -127,37 +105,33 @@ public class Admin {
             }
         }));
 
+        JButton showMessageTotalButton = new JButton("Show Messages Total");
+        showMessageTotalButton.setBounds(370, 360, 200, 50);
+        frame.getContentPane().add(showMessageTotalButton);
+        showMessageTotalButton.addActionListener((new ActionListener() {
+            public void actionPerformed(ActionEvent event){
+                TotalMessageVisitor totalMessageVisitor = new TotalMessageVisitor();
+                root.accept(totalMessageVisitor);
+                alert("There are " + totalMessageVisitor.getMessageCount() + " messages in total.");
+            }
+        }));
+
+        JButton showPositiveButton = new JButton("Show Positive Percentage");
+        showPositiveButton.setBounds(580, 360, 200, 50);
+        frame.getContentPane().add(showPositiveButton);
+        showPositiveButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                PositiveMessageVisitor positiveMessageVisitor = new PositiveMessageVisitor();
+                root.accept(positiveMessageVisitor);
+                alert("Percent of positive messages is: " + positiveMessageVisitor.getPositiveRatio() + " percent");
+            }
+        });
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 10, 350, 402);
-
         frame.getContentPane().add(scrollPane);
         tree = new JTree(rootNode);
         scrollPane.setViewportView(tree);
-    }
-
-    private void addGroup(String inputNewGroupID){
-        if(inputNewGroupID.equals("")){
-            alert("Please enter an ID.");
-        }
-        else{
-            DefaultMutableTreeNode tempNode = getSelected();
-            if(tempNode != null && tempNode.getUserObject() instanceof UserGroup){
-                UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
-
-                UserGroup newGroup = new UserGroup(inputNewGroupID, tempGroup);
-                DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(newGroup);
-
-                if(tempGroup.addToGroup(newGroup)){
-                    updateTree(newGroupNode, tempNode);
-                }
-                else{
-                    alert("ID already exists. Please try a unique ID.");
-                }
-            }
-            else{
-                alert("Error! Select a group and try again!");
-            }
-        }
     }
 
     private void addUser(String inputNewUserID){
@@ -186,6 +160,31 @@ public class Admin {
         }
     }
 
+    private void addGroup(String inputNewGroupID){
+        if(inputNewGroupID.equals("")){
+            alert("Please enter an ID.");
+        }
+        else{
+            DefaultMutableTreeNode tempNode = getSelected();
+            if(tempNode != null && tempNode.getUserObject() instanceof UserGroup){
+                UserGroup tempGroup = (UserGroup) tempNode.getUserObject();
+
+                UserGroup newGroup = new UserGroup(inputNewGroupID, tempGroup);
+                DefaultMutableTreeNode newGroupNode = new DefaultMutableTreeNode(newGroup);
+
+                if(tempGroup.addToGroup(newGroup)){
+                    updateTree(newGroupNode, tempNode);
+                }
+                else{
+                    alert("ID already exists. Please try a unique ID.");
+                }
+            }
+            else{
+                alert("Error! Select a group and try again!");
+            }
+        }
+    }
+
     public void updateTree(DefaultMutableTreeNode nodeToAdd, DefaultMutableTreeNode containingNode) {
 		if(containingNode.getUserObject() instanceof UserGroup){
             DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
@@ -197,7 +196,7 @@ public class Admin {
         }
 	}
 
-    private void alert(String inputMessage){
+    private void alert(String inputMessage){ //Helper method for quickly sending out the corresponding errors
         JOptionPane.showMessageDialog(null, inputMessage);
     }
 

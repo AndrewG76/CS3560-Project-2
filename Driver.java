@@ -28,7 +28,7 @@
   */
 
 public class Driver{
-    public static void main(String[] args){
+    public static void main(String[] args){ //This is the main method that will retrieve an instance of the admin's control panel and then make it visible
         Admin.getInstance().runWindow();
     }
 }
