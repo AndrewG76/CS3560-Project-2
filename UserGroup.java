@@ -5,12 +5,14 @@ public class UserGroup implements Component{
     private UserGroup parentGroup;
     private List<Component> childUsersAndGroups;
     private Set<String> ids;
+    public final long creationTime;
     
     public UserGroup(String inputID){ //This constructor exists to be utilized for the root group which is always present
         id = inputID;
         childUsersAndGroups = new ArrayList<Component>();
         parentGroup = this;
         ids = new HashSet<String>();
+        creationTime = System.currentTimeMillis();
     }
 
     public UserGroup(String inputID, UserGroup inputParent){ //Then this is the general constructor that the regular groups will be using as a recursive structure
@@ -18,6 +20,7 @@ public class UserGroup implements Component{
         parentGroup = inputParent;
         childUsersAndGroups = new ArrayList<Component>();
         ids = new HashSet<String>();
+        creationTime = System.currentTimeMillis();
     }
 
     public UserGroup getParent(){
@@ -42,6 +45,11 @@ public class UserGroup implements Component{
             root = parentGroup.getParent();
         }
         return root;
+    }
+
+    @Override
+    public long getCreationTime(){
+        return creationTime;
     }
 
     public void setID(String inputID){

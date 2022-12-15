@@ -83,6 +83,28 @@ public class Admin {
             }
         });
 
+        JButton idVerificationButton = new JButton("Verify IDs"); //we create the id verification button
+        idVerificationButton.setBounds(370, 240, 200, 50);
+        frame.getContentPane().add(idVerificationButton);
+        idVerificationButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                UserIDCheckVisitor ucv = new UserIDCheckVisitor();
+                root.accept(ucv);
+                alert(ucv.getBadIDs());
+            }
+        });
+
+        JButton lastUpdatedUserButton = new JButton("Last Updated User"); //and we create the last updated user button
+        lastUpdatedUserButton.setBounds(580, 240, 200, 50);
+        frame.getContentPane().add(lastUpdatedUserButton);
+        lastUpdatedUserButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                LastUpdatedUserVisitor luv = new LastUpdatedUserVisitor();
+                root.accept(luv);
+                alert("The last updated user: " + luv.getLastUpdatedUser());
+            }
+        });
+
         JButton showUserCountButton = new JButton("Show User Total");
         showUserCountButton.setBounds(370, 300, 200, 50);
         frame.getContentPane().add(showUserCountButton);

@@ -9,6 +9,8 @@ public class User extends Observable implements Component{
     private List<String> newsFeed;
     private UserView userView;
     private UserGroup parentGroup;
+    private final long creationTime;
+    private long lastUpdateTime;
 
     //This constructor initializes the aspects of what makes a "user"
     public User(String inputID, UserGroup inputParent){
@@ -19,6 +21,8 @@ public class User extends Observable implements Component{
         tweets = new ArrayList<String>();
         this.parentGroup = inputParent;
         follow(this); //Also, we want the user technically following themselves because that's how they update their feed with their own messages
+        creationTime = System.currentTimeMillis();
+        lastUpdateTime = System.currentTimeMillis();
     }
 
     @Override
@@ -97,5 +101,19 @@ public class User extends Observable implements Component{
     public void updateTweetFeed(String inputMessage){
         userView.updateTweetList(inputMessage);
         newsFeed.add(inputMessage);
+        lastUpdateTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public long getCreationTime(){
+        return creationTime;
+    }
+
+    public long getLastUpdateTime(){
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(long inputTime){
+        lastUpdateTime = inputTime;
     }
 }

@@ -8,6 +8,7 @@ public class UserView {
     private DefaultListModel<String> followingList;
     private DefaultListModel<String> tweetList;
     private User user;
+    private JLabel labelLastUpdateTime;
 
     public UserView(User inputUser){
         user = inputUser;
@@ -58,12 +59,20 @@ public class UserView {
 
         tweetList = new DefaultListModel<String>();
         JList<String> tweetDisplay = new JList<String>(tweetList);
-        tweetDisplay.setBounds(10, 260, 490, 120);
+        tweetDisplay.setBounds(10, 260, 490, 80);
         frame.getContentPane().add(tweetDisplay);
         
-        JLabel labelMessages = new JLabel();
-        labelMessages.setBounds(10, 260, 490, 120);
+        JLabel labelMessages = new JLabel("Messages");
+        labelMessages.setBounds(10, 260, 130, 20);
         frame.getContentPane().add(labelMessages);
+
+        JLabel labelCreationTime = new JLabel("Creation time: " + user.getCreationTime());
+        labelCreationTime.setBounds(10, 360, 200, 20);
+        frame.getContentPane().add(labelCreationTime);
+
+        labelLastUpdateTime = new JLabel("Last Update Time: " + user.getLastUpdateTime());
+        labelLastUpdateTime.setBounds(210, 360, 300, 20);
+        frame.getContentPane().add(labelLastUpdateTime);
 
         repopulateFollowers();
         repopulateTweets();
@@ -75,12 +84,14 @@ public class UserView {
 
     public void updateTweetList(String inputMessage){
         tweetList.addElement(inputMessage);
+        labelLastUpdateTime.setText("The last update time was: " + user.getLastUpdateTime());
+        frame.update(frame.getGraphics());
     }
 
     //These next few functions exist in the off chance that a user closes their view but still wants to see all the updates that took place while they were gone
     private void repopulateTweets(){
         for(String tweet : user.getNewsFeed()){
-            updateTweetList(tweet);
+            tweetList.addElement(tweet);
         }
     }
 

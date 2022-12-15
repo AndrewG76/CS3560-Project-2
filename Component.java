@@ -5,4 +5,5 @@ public interface Component {
     public String getID();
     public String toString();
     public UserGroup getParent();
+    public long getCreationTime();
 }
